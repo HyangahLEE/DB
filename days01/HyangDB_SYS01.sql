@@ -1,18 +1,20 @@
---¿À¶óÅ¬ ÁÖ¼®Ã³¸®
+--ì˜¤ë¼í´ ì£¼ì„ì²˜ë¦¬
 SELECT *  FROM tabs;
 select * from all_users; --Ctrl + Enter
 select * from v$nls_parameters;
---ÀÏ¹Ý »ç¿ëÀÚ °èÁ¤ »ý¼º...[identified by]
---°èÁ¤: scott ºñ¹ø: tiger  [Å×½ºÆ®¿ëµµÀÇ »ùÇÃ°èÁ¤]
---°èÁ¤À» ¸¸µé¸é ±× °èÁ¤ÀÌ µ¥ÀÌÅÍ¸¦ »ç¿ëÇÒ¼ö ÀÖ´Â µ¥ÀÌÅÍ °´Ã¼ -> ½ºÅ°¸¶(scott ½ºÅ°¸¶)
-CREATE USER scott IDENTIFIED by tiger;-- [externally] Ã¹¹øÂ° Á¢¼ÓÇÑ »ç¶÷ÀÌ ºñ¹Ð¹øÈ£ ¹Ù²ã¶ó
+--ì¼ë°˜ ì‚¬ìš©ìž ê³„ì • ìƒì„±...[identified by]
+--ê³„ì •: scott ë¹„ë²ˆ: tiger  [í…ŒìŠ¤íŠ¸ìš©ë„ì˜ ìƒ˜í”Œê³„ì •]
+--ê³„ì •ì„ ë§Œë“¤ë©´ ê·¸ ê³„ì •ì´ ë°ì´í„°ë¥¼ ì‚¬ìš©í• ìˆ˜ ìžˆëŠ” ë°ì´í„° ê°ì²´ -> ìŠ¤í‚¤ë§ˆ(scott ìŠ¤í‚¤ë§ˆ)
+CREATE USER scott IDENTIFIED by tiger;-- [externally] ì²«ë²ˆì§¸ ì ‘ì†í•œ ì‚¬ëžŒì´ ë¹„ë°€ë²ˆí˜¸ ë°”ê¿”ë¼
 create USER ora_user IDENTIFIED by hong;
---½ºÄ±°èÁ¤À¸·Î »õÁ¢¼Ó - ¿À·ù ? create session ±ÇÇÑÀÌ ºÎÁ·ÇØ¼­ ·Î±×ÀÎx
+--ìŠ¤ìº‡ê³„ì •ìœ¼ë¡œ ìƒˆì ‘ì† - ì˜¤ë¥˜ ? create session ê¶Œí•œì´ ë¶€ì¡±í•´ì„œ ë¡œê·¸ì¸x
 --ORA-01045: user SCOTT lacks CREATE SESSION privilege; logon denied
---GRANT create session TO SCOTT public [with admin option]--³»°¡ °èÁ¤ ºÎ¿©¹Þ°í ´Ù¸¥»ç¶÷ÇÑÅ× ±× °èÁ¤À» ¶Ç ´Ù¸¥µ¥ ºÎ¿©ÇÒ¼ö ÀÖ´Â°¡?
---GRANT ±ÇÇÑÀ» ºÎ¿©ÇÔ REVOKE ±ÇÇÑÀ» »¯´Â´Ù.
---»ý¼º ½Ã½ºÅÛ±ÇÇÑ / Á¶ÀÛ- °´Ã¼±ÇÇÑ
---·Ñ? EX) ½ÅÀÔÀÌ°¡Áö°í ÀÖ´Â ±ÇÇÑ(½ÅÀÔ, ÃÑ¹«...) À» ¿µ¾÷ºÎ·Î ¿Å°åÀ»¶§ ÃÑ¹«±ÇÇÑÀ» ÇÏ³ªÇÏ³ª ´Ù »©Áö¸»°í 
---10°¡ÁöÀÇ ±ÇÇÑµéÀ» ÁýÇÕÇØ ³õÀº ·Ñ ÇÏ³ª¸¸ »©°í ¿µ¾÷·ÑÀ» ´Ù½Ã ³Ö´Â´Ù. [°ü¸® ¼ö¿ù, ÀÚµ¿¼öÁ¤] 
---GRANT ±ÇÇÑ,¶Ç´Â ·ê TO »ç¿ëÀÚ
+--GRANT create session TO SCOTT public [with admin option]--ë‚´ê°€ ê³„ì • ë¶€ì—¬ë°›ê³  ë‹¤ë¥¸ì‚¬ëžŒí•œí…Œ ê·¸ ê³„ì •ì„ ë˜ ë‹¤ë¥¸ë° ë¶€ì—¬í• ìˆ˜ ìžˆëŠ”ê°€?
+--GRANT ê¶Œí•œì„ ë¶€ì—¬í•¨ REVOKE ê¶Œí•œì„ ëºëŠ”ë‹¤.
+--ìƒì„± ì‹œìŠ¤í…œê¶Œí•œ / ì¡°ìž‘- ê°ì²´ê¶Œí•œ
+--ë¡¤? EX) ì‹ ìž…ì´ê°€ì§€ê³  ìžˆëŠ” ê¶Œí•œ(ì‹ ìž…, ì´ë¬´...) ì„ ì˜ì—…ë¶€ë¡œ ì˜®ê²¼ì„ë•Œ ì´ë¬´ê¶Œí•œì„ í•˜ë‚˜í•˜ë‚˜ ë‹¤ ë¹¼ì§€ë§ê³  
+--10ê°€ì§€ì˜ ê¶Œí•œë“¤ì„ ì§‘í•©í•´ ë†“ì€ ë¡¤ í•˜ë‚˜ë§Œ ë¹¼ê³  ì˜ì—…ë¡¤ì„ ë‹¤ì‹œ ë„£ëŠ”ë‹¤. [ê´€ë¦¬ ìˆ˜ì›”, ìžë™ìˆ˜ì •] 
+--GRANT ê¶Œí•œ,ë˜ëŠ” ë£° TO ì‚¬ìš©ìž
 GRANT connect,resource to SCOTT;
+
+--oracle.exe >scott.sql > TIGER->tiger > cmd> sqlplus.exe sys/ss123$ as sysdba>@scott.sqlíŒŒì¼ ë“œëž˜ê·¸

@@ -1,0 +1,56 @@
+1장. 
+	ㄱ. 오라클 설치 및 삭제
+	ㄴ. 개발 도구 : SQL Developer
+	ㄷ. SQL + PL/SQL
+2장.
+	ㄱ. DataBbase
+	ㄴ. table( 테이블 )
+	ㄷ. view( 뷰 )
+	ㄹ. index ( 인덱스 )
+	ㅁ. 시노님
+	ㅂ. 시퀀스
+3장.
+	ㄱ. select문
+	ㄴ. insert문
+	ㄷ. update문
+	ㄹ. merge문
+	ㅁ. delete문
+	ㅂ. commit / rollback / runcate
+	ㅅ. 의사컬럼
+	ㅇ. 연산자
+	ㅈ. 표현식
+	ㅊ. 조건식
+4장. 함수
+	ㄱ. 숫자함수
+	ㄴ. 문자함수
+	ㄷ. 날짜함수
+	ㄹ. 변환함수
+	ㅁ. NULL 관련 함수
+	ㅂ. 기타함수
+5장.
+	ㄱ. 집계함수
+	ㄴ. group by, having 절
+	ㄷ. rollup, cube 절
+	ㄹ. 집합연산자
+	    union, union all, intersect, minus 등
+6장. 조인( join ), 서브쿼리
+	ㄱ. join  종류
+	ㄴ. 내부 /외부 조인
+	ㄷ. ANSI 조인
+	ㄹ. 서브 쿼리
+7장. 고급쿼리
+	ㄱ. 계층형쿼리
+	ㄴ. with절
+	ㄷ. 분석함수, window 함수
+	ㄹ. insert문( 다중 테이블 )
+
+1. 데이터베이스 ? 
+2. 데이터베이스 관리 시스템 ? ( [D]ata[B]ase [M]anagement [S]ystem ) == DBMS
+   == 소프트웨어
+   ( 오라클... )
+   ㄱ. 테이블 ( table ) : 데이터를 저장,  "데이터베이스 객체"
+3. 관계형 데이터베이스 관리 시스템 ?  RDBMS
+   [테]<-관계->[테]<-관계->[테]
+
+SQL>select *
+2   from tabs; 엔터

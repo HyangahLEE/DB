@@ -199,9 +199,9 @@ order by deptno;
 --ORA-00955: name is already used by an existing object
 create table test_char
 (
-aa char
-, bb char(3)
-, cc char(3 char)
+   aa char            -- char(1 byte)
+   , bb char(3)       -- bb char(3 byte)
+   , cc char(3 char)  -- 3문자 "홍길동"  "abc"
 );
 
 insert into test_char (aa,bb,cc) values ('a','aaa','aaa');

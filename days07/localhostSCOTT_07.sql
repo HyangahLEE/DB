@@ -1,13 +1,13 @@
---20180626 (È­)
---1. °èÃşÇü Äõ¸®
---¡¼Çü½Ä¡½ 
---	SELECT 	[LEVEL] {*,ÄÃ·³¸í [alias],...}
---	FROM	Å×ÀÌºí¸í
---	WHERE	Á¶°Ç
---	START WITH Á¶°Ç
---	CONNECT BY [PRIOR ÄÃ·³1¸í  ºñ±³¿¬»êÀÚ  ÄÃ·³2¸í]
---		¶Ç´Â 
---		   [ÄÃ·³1¸í ºñ±³¿¬»êÀÚ PRIOR ÄÃ·³2¸í]
+--20180626 (í™”)
+--1. ê³„ì¸µí˜• ì¿¼ë¦¬
+--ã€í˜•ì‹ã€‘ 
+--	SELECT 	[LEVEL] {*,ì»¬ëŸ¼ëª… [alias],...}
+--	FROM	í…Œì´ë¸”ëª…
+--	WHERE	ì¡°ê±´
+--	START WITH ì¡°ê±´
+--	CONNECT BY [PRIOR ì»¬ëŸ¼1ëª…  ë¹„êµì—°ì‚°ì  ì»¬ëŸ¼2ëª…]
+--		ë˜ëŠ” 
+--		   [ì»¬ëŸ¼1ëª… ë¹„êµì—°ì‚°ì PRIOR ì»¬ëŸ¼2ëª…]
 
 
 SELECT deptno, empno
@@ -25,13 +25,13 @@ START WITH mgr IS NULL
 CONNECT BY PRIOR empno=mgr;
 
 
-insert into test (deptno, dname, college, loc) values( 101, 'ÄÄÇ»ÅÍ°øÇĞ°ú',100,'1È£°ü');
-insert into test (deptno, dname, college, loc)  values (102,'¸ÖÆ¼¹Ìµğ¾îÇĞ°ú',100,'2È£°ü');
-insert into test (deptno, dname, college, loc) values( 201, 'ÀüÀÚ°øÇĞ°ú' , 200, '3È£°ü');
-insert into test (deptno, dname, college, loc) values( 202, '±â°è°øÇĞ°ú',  200, '4È£°ü');
-insert into test (deptno, dname, college) values( 100, 'Á¤º¸¹Ìµğ¾îÇĞºÎ',10);
-insert into test (deptno, dname, college) values( 200, '¸ŞÄ«Æ®·Î´Ğ½º',10);
-insert into test (deptno, dname) values( 10, '°ø°ú´ëÇĞ');
+insert into test (deptno, dname, college, loc) values( 101, 'ì»´í“¨í„°ê³µí•™ê³¼',100,'1í˜¸ê´€');
+insert into test (deptno, dname, college, loc)  values (102,'ë©€í‹°ë¯¸ë””ì–´í•™ê³¼',100,'2í˜¸ê´€');
+insert into test (deptno, dname, college, loc) values( 201, 'ì „ìê³µí•™ê³¼' , 200, '3í˜¸ê´€');
+insert into test (deptno, dname, college, loc) values( 202, 'ê¸°ê³„ê³µí•™ê³¼',  200, '4í˜¸ê´€');
+insert into test (deptno, dname, college) values( 100, 'ì •ë³´ë¯¸ë””ì–´í•™ë¶€',10);
+insert into test (deptno, dname, college) values( 200, 'ë©”ì¹´íŠ¸ë¡œë‹‰ìŠ¤',10);
+insert into test (deptno, dname) values( 10, 'ê³µê³¼ëŒ€í•™');
 commit;
 
 select *
@@ -39,7 +39,7 @@ from test;
 
 SELECT deptno,college,dname,loc,LEVEL
 FROM test
-WHERE dname != 'Á¤º¸¹Ìµğ¾îÇĞºÎ'
+WHERE dname != 'ì •ë³´ë¯¸ë””ì–´í•™ë¶€'
 START WITH college IS NULL
 CONNECT BY PRIOR deptno=college;
 
@@ -47,31 +47,32 @@ CONNECT BY PRIOR deptno=college;
 FROM test
 START WITH college IS NULL
 CONNECT BY PRIOR deptno=college
-AND dname != 'Á¤º¸¹Ìµğ¾îÇĞºÎ';
+AND dname != 'ì •ë³´ë¯¸ë””ì–´í•™ë¶€';
 
-select empno, lpad(' ',3*(level-1)) || ename, level
+
+----------------------------
+SELECT deptno,dname,college,LEVEL
+  FROM test
+  START WITH deptno=10
+  CONNECT BY PRIOR deptno=college;
+-- order by ì •ë ¬
+select empno, lpad(' ', 3 * (level-1)) || ename, level
+   , connect_by_root empno as root_empno
+   , connect_by_isleaf
+   , sys_connect_by_path(empno,'|')
 from emp
---where 
+-- where
 start with mgr is null
-connect by prior empno = mgr --and Á¶°ÇÀı 
-order siblings by deptno; --Á¤·Ä + °èÃş±¸Á¶ º¸Á¸(À¯Áö)
+connect by prior empno = mgr -- and ì¡°ê±´ì ˆ
+order siblings by deptno ;  -- ì •ë ¬ + ê³„ì¸µêµ¬ì¡° ë³´ì¡´(ìœ ì§€)
+---------------------------------
 
-select empno, lpad(' ',3*(level-1)) || ename, level
-        ,connect_by_root empno as root_empno
-        , connect_by_isleaf
-        , sys_connect_by_path(empno,'/')
-from emp
---where 
-start with mgr is null
-connect by prior empno = mgr --and Á¶°ÇÀı 
-order siblings by deptno; --Á¤·Ä + °èÃş±¸Á¶ º¸Á¸(À¯Áö)
 
---
 select count(*)
-        ,count( decode(deptno,10,1) ) "10¹ø"
-        ,count( decode(deptno,20,1) ) "20¹ø"
-        ,count( decode(deptno,30,1) ) "30¹ø"
-        ,count( decode(deptno,40,1) ) "40¹ø"
+        ,count( decode(deptno,10,1) ) "10ë²ˆ"
+        ,count( decode(deptno,20,1) ) "20ë²ˆ"
+        ,count( decode(deptno,30,1) ) "30ë²ˆ"
+        ,count( decode(deptno,40,1) ) "40ë²ˆ"
 from emp;
 
 select * 
@@ -79,9 +80,9 @@ from
 (select deptno from emp
 )
 pivot( count(deptno) for deptno in(10,20,30,40));
---pivot( Áı°èÇÔ¼ö for ÄÃ·³¸í in ¸®½ºÆ®);
+--pivot( ì§‘ê³„í•¨ìˆ˜ for ì»¬ëŸ¼ëª… in ë¦¬ìŠ¤íŠ¸);
 
---°¢ ºÎ¼­º° salÃÑÇÕ Ãâ·Â(pivot)
+--ê° ë¶€ì„œë³„ salì´í•© ì¶œë ¥(pivot)
 select *
 from 
 (select sal,deptno
@@ -109,21 +110,21 @@ pivot( MAX(JUMSU) for SUBJECT in('KOR','ENG','MAT'));
 
 
 
--- ¹®Á¦ 2) emp Å×ÀÌºí¿¡¼­ ³âµµº° ¿ùº°   ÀÔ»çÇÑ »ç¿ø¼ö Ãâ·Â...
+-- ë¬¸ì œ 2) emp í…Œì´ë¸”ì—ì„œ ë…„ë„ë³„ ì›”ë³„   ì…ì‚¬í•œ ì‚¬ì›ìˆ˜ ì¶œë ¥...
 select to_char(hiredate,'YYYY') y
   --, count(*)
-  , count( decode( to_char(hiredate,'MM'),1,1 ) )  "1¿ù"
-  , count( decode( to_char(hiredate,'MM'),2,1 ) ) "2¿ù"
-  , count( decode( to_char(hiredate,'MM'),3,1 ) ) "3¿ù"
-  , count( decode( to_char(hiredate,'MM'),4,1 ) ) "4¿ù"
-  , count( decode( to_char(hiredate,'MM'),5,1 ) ) "5¿ù"
-  , count( decode( to_char(hiredate,'MM'),6,1 ) ) "6¿ù"
-  , count( decode( to_char(hiredate,'MM'),7,1 ) ) "7¿ù"
-  , count( decode( to_char(hiredate,'MM'),8,1 ) ) "8¿ù"
-  , count( decode( to_char(hiredate,'MM'),9,1 ) ) "9¿ù"
-  , count( decode( to_char(hiredate,'MM'),10,1 ) ) "10¿ù"
-  , count( decode( to_char(hiredate,'MM'),11,1 ) ) "11¿ù"
-  , count( decode( to_char(hiredate,'MM'),12,1 ) ) "12¿ù"
+  , count( decode( to_char(hiredate,'MM'),1,1 ) )  "1ì›”"
+  , count( decode( to_char(hiredate,'MM'),2,1 ) ) "2ì›”"
+  , count( decode( to_char(hiredate,'MM'),3,1 ) ) "3ì›”"
+  , count( decode( to_char(hiredate,'MM'),4,1 ) ) "4ì›”"
+  , count( decode( to_char(hiredate,'MM'),5,1 ) ) "5ì›”"
+  , count( decode( to_char(hiredate,'MM'),6,1 ) ) "6ì›”"
+  , count( decode( to_char(hiredate,'MM'),7,1 ) ) "7ì›”"
+  , count( decode( to_char(hiredate,'MM'),8,1 ) ) "8ì›”"
+  , count( decode( to_char(hiredate,'MM'),9,1 ) ) "9ì›”"
+  , count( decode( to_char(hiredate,'MM'),10,1 ) ) "10ì›”"
+  , count( decode( to_char(hiredate,'MM'),11,1 ) ) "11ì›”"
+  , count( decode( to_char(hiredate,'MM'),12,1 ) ) "12ì›”"
 from emp
 group by to_char(hiredate,'YYYY')
 order by y asc;
@@ -134,17 +135,17 @@ order by y asc;
 SELECT *
 FROM
 (
-SELECT TO_CHAR(HIREDATE,'YYYY') Y ,TO_NUMBER(TO_CHAR(HIREDATE,'MM')) M --******TO_NUMBER·Î Çüº¯È¯ ÇØÁÖ±â!!
+SELECT TO_CHAR(HIREDATE,'YYYY') Y ,TO_NUMBER(TO_CHAR(HIREDATE,'MM')) M --******TO_NUMBERë¡œ í˜•ë³€í™˜ í•´ì£¼ê¸°!!
 FROM EMP
 )
 PIVOT( COUNT(M) FOR M IN(1,2,3,4,5,6,7,8,9,10,11,12))
 ORDER BY Y;
 
---COUNT() Áı°èÇÔ¼ö
+--COUNT() ì§‘ê³„í•¨ìˆ˜
 
 SELECT COUNT(*) FROM EMP;
 
---COUNT() OVER() : ÁúÀÇÇÑ ÇàÀÇ [´©Àû]µÈ Ä«¿îÆ®°¡ Ãâ·ÂµÈ´Ù.
+--COUNT() OVER() : ì§ˆì˜í•œ í–‰ì˜ [ëˆ„ì ]ëœ ì¹´ìš´íŠ¸ê°€ ì¶œë ¥ëœë‹¤.
 SELECT DEPTNO, ENAME, SAL, COUNT(*) OVER(ORDER BY SAL)
 FROM EMP
 WHERE DEPTNO =30;
@@ -158,40 +159,40 @@ WHERE DEPTNO =30;
 SELECT DEPTNO,SAL, COUNT(*) OVER(PARTITION BY DEPTNO ORDER BY SAL)
 FROM EMP;
 
---COUNT() OVER() ´©ÀûµÈ Ä«¿îÆ®
---SUM() OVER() ´©ÀûµÈ ÇÕ
+--COUNT() OVER() ëˆ„ì ëœ ì¹´ìš´íŠ¸
+--SUM() OVER() ëˆ„ì ëœ í•©
 SELECT DEPTNO, SUM(SAL) OVER(ORDER BY SAL) 
         , TRUNC(AVG(SAL) OVER(ORDER BY SAL))
 FROM EMP;
 
---¹®Á¦) °¢ EMPÅ×ÀÌºí¿¡¼­ »ç¿øµéÀÇ ±Ş¿©°¡ ÀüÃ¼ ±Ş¿©¾×ÀÇ ¸î %¸¦ Â÷ÁöÇÏ´ÂÁö Ãâ·Â
+--ë¬¸ì œ) ê° EMPí…Œì´ë¸”ì—ì„œ ì‚¬ì›ë“¤ì˜ ê¸‰ì—¬ê°€ ì „ì²´ ê¸‰ì—¬ì•¡ì˜ ëª‡ %ë¥¼ ì°¨ì§€í•˜ëŠ”ì§€ ì¶œë ¥
 
--- ¹®Á¦ ) °¢ »ç¿øµéÀÇ ±Ş¿©°¡ ÀüÃ¼ ±Ş¿©¾×ÀÇ ¸î % Ãâ·Â
+-- ë¬¸ì œ ) ê° ì‚¬ì›ë“¤ì˜ ê¸‰ì—¬ê°€ ì „ì²´ ê¸‰ì—¬ì•¡ì˜ ëª‡ % ì¶œë ¥
 select deptno, ename  , sal
     , ( select sum(sal) from emp ) tot_sal
-    -- ¼Ò¼öÁ¡ 2ÀÚ¸®±îÁö Ãâ·Â  3.20%
+    -- ì†Œìˆ˜ì  2ìë¦¬ê¹Œì§€ ì¶œë ¥  3.20%
     , round( sal / ( select sum(sal) from emp ) * 100, 2 ) || '%' a
      
-      -- ±× ºÎ¼­¿¡¼­ÀÇ salÀÇ ºñÀ²
+      -- ê·¸ ë¶€ì„œì—ì„œì˜ salì˜ ë¹„ìœ¨
      ,( select sum(sal) from emp x where x.deptno = y.deptno ) d1
      , round( sal /( select sum(sal) from emp x where x.deptno = y.deptno ) * 100, 2 ) || '%' b1 
-       -- ±× ºÎ¼­¿¡¼­ÀÇ salÀÇ ºñÀ²
+       -- ê·¸ ë¶€ì„œì—ì„œì˜ salì˜ ë¹„ìœ¨
      , sum(sal) over(PARTITION BY deptno order by deptno) d2
      , to_char(round( sal/sum(sal) over(PARTITION BY deptno order by deptno)*100,2), '999.00') || '%'  b2
 from emp y
 order by deptno;
 
---¿À¶óÅ¬ DateType(ÀÚ·áÇü)
---1. µ¥ÀÌÅÍ Å¸ÀÔ? [ÄÃ·³]ÀÌ ÀúÀåµÇ´Â µ¥ÀÌÅÍ À¯Çü
---2. ¤¡.±âº» µ¥ÀÌÅÍ Å¸ÀÔ/ ¤¤. »ç¿ëÀÚ Á¤ÀÇ À¯Çü
+--ì˜¤ë¼í´ DateType(ìë£Œí˜•)
+--1. ë°ì´í„° íƒ€ì…? [ì»¬ëŸ¼]ì´ ì €ì¥ë˜ëŠ” ë°ì´í„° ìœ í˜•
+--2. ã„±.ê¸°ë³¸ ë°ì´í„° íƒ€ì…/ ã„´. ì‚¬ìš©ì ì •ì˜ ìœ í˜•
 
 --A. char 
---   1. ¹®ÀÚ µ¥ÀÌÅÍ Å¸ÀÔ
---   2. Çü½Ä     char( Å©±â [byte ¶Ç´Â char] ) 
+--   1. ë¬¸ì ë°ì´í„° íƒ€ì…
+--   2. í˜•ì‹     char( í¬ê¸° [byte ë˜ëŠ” char] ) 
 --              char(10)  == char(10 byte)   1byte
 --              char(1 byte) == char(1) == char
---   3. Å©±â     2000 ¹ÙÀÌÆ®     ¾ËÆÄºª 2000¹®ÀÚ, ÇÑ±Û 3¹Ù   666¹®ÀÚ
---   4. °íÁ¤ Å©±â ***    [x][blank][blank]
+--   3. í¬ê¸°     2000 ë°”ì´íŠ¸     ì•ŒíŒŒë²³ 2000ë¬¸ì, í•œê¸€ 3ë°”   666ë¬¸ì
+--   4. ê³ ì • í¬ê¸° ***    [x][blank][blank]
 
 
  
@@ -209,21 +210,21 @@ commit;
 select aa,bb,'[' || cc || ']'
 from test_char;
 
-insert into test_char (aa,bb,cc) values ('b','ÇÑ','È«±æµ¿');
-insert into test_char (aa,bb,cc) values ('c','µÑ','x');
+insert into test_char (aa,bb,cc) values ('b','í•œ','í™ê¸¸ë™');
+insert into test_char (aa,bb,cc) values ('c','ë‘˜','x');
 
---B. nchar µ¥ÀÌÅÍ Å¸ÀÔ
--- 1. unicode °ª ÀúÀåÇÏ´Â µ¥ÀÌÅÍ Å¸ÀÔ
--- 2. À¯´ÏÄÚµå ¾ËÆÄºª 1¹®ÀÚ ÇÑ±Û 1¹®ÀÚ ->2¹ÙÀÌÆ® Ã³¸®..
--- 3. Çü½Ä  nchar( Å©±â )   nchar(3) 3¹®ÀÚ  ex) abc / È«±æµ¿
---         nchar  == nchar(1) 1¹®ÀÚ
--- 4. ÃÖ´ë·Î 2000¹ÙÀÌÆ® == 1000¹®ÀÚ 
+--B. nchar ë°ì´í„° íƒ€ì…
+-- 1. unicode ê°’ ì €ì¥í•˜ëŠ” ë°ì´í„° íƒ€ì…
+-- 2. ìœ ë‹ˆì½”ë“œ ì•ŒíŒŒë²³ 1ë¬¸ì í•œê¸€ 1ë¬¸ì ->2ë°”ì´íŠ¸ ì²˜ë¦¬..
+-- 3. í˜•ì‹  nchar( í¬ê¸° )   nchar(3) 3ë¬¸ì  ex) abc / í™ê¸¸ë™
+--         nchar  == nchar(1) 1ë¬¸ì
+-- 4. ìµœëŒ€ë¡œ 2000ë°”ì´íŠ¸ == 1000ë¬¸ì 
 
 create table test_nchar
 (
-aa  char(3)             -- char(3 byte) ¾Ë 3¹®ÀÚ, ÇÑ±Û 1¹®ÀÚ
-, bb char(3 char)       -- char(3 char) ¾Ë, ÇÑ 3¹®ÀÚ
-, cc nchar(3)           -- nchar À¯´ÏÄÚµå 2¹ÙÀÌÆ®, 3¹®ÀÚ , °íÁ¤Å©±â*******
+aa  char(3)             -- char(3 byte) ì•Œ 3ë¬¸ì, í•œê¸€ 1ë¬¸ì
+, bb char(3 char)       -- char(3 char) ì•Œ, í•œ 3ë¬¸ì
+, cc nchar(3)           -- nchar ìœ ë‹ˆì½”ë“œ 2ë°”ì´íŠ¸, 3ë¬¸ì , ê³ ì •í¬ê¸°*******
 );
 
 insert into test_nchar (aa,bb,cc) values('a','aaa','aaa');

@@ -1,27 +1,27 @@
---2018.06.28 (¸ñ)
+--2018.06.28 (ëª©)
 
---1. Á¦¾à Á¶°Ç È®ÀÎ
+--1. ì œì•½ ì¡°ê±´ í™•ì¸
 SELECT *
 FROM user_constraints; 
 
---2. Á¦¾àÁ¶°Ç - data 
---    ¤¡.°³Ã¼¹«°á¼º 
---    ¤¤.ÂüÁ¶¹«°á¼³
---    ¤§.µµ¸ÞÀÎ¹«°á¼º
+--2. ì œì•½ì¡°ê±´ - data 
+--    ã„±.ê°œì²´ë¬´ê²°ì„± 
+--    ã„´.ì°¸ì¡°ë¬´ê²°ì„¤
+--    ã„·.ë„ë©”ì¸ë¬´ê²°ì„±
 
 select * from emp;
 insert into emp values(9999,'SMITH','CLERK',7902,'80/12/17',800,null,90);
 --ORA-02291: integrity constraint (SCOTT.FK_DEPTNO) violated - parent key not found 
 
---1. Á¦¾à Á¶°Ç »ý¼º
---    ¤¡.column level ¹æ½Ä
---    ¤¤.Table level ¹æ½Ä
+--1. ì œì•½ ì¡°ê±´ ìƒì„±
+--    ã„±.column level ë°©ì‹
+--    ã„´.Table level ë°©ì‹
 
 
 
 create table test01(
--- Á¦¾à Á¶°Ç ¸íÀ» ¼³Á¤ÇÏÁö ¾ÊÀ¸¸é sys_???
-id varchar2(20) constraint PK_TEST01_ID primary key --Á¦¾àÁ¶°Ç ¼³Á¤ [column level]
+-- ì œì•½ ì¡°ê±´ ëª…ì„ ì„¤ì •í•˜ì§€ ì•Šìœ¼ë©´ sys_???
+id varchar2(20) constraint PK_TEST01_ID primary key --ì œì•½ì¡°ê±´ ì„¤ì • [column level]
 ,name varchar2(20)
 );
 
@@ -37,14 +37,14 @@ FROM USER_CONSTRAINTS
 WHERE table_name = UPPER('test02');
 
 
---FOREIGN KEY (¿Ü·¡Å°/ÂüÁ¶Å°) »ý¼º
+--FOREIGN KEY (ì™¸ëž˜í‚¤/ì°¸ì¡°í‚¤) ìƒì„±
 --TEST01 id(pk) name
 --test02  seq(pk)/id(test01.id fk)/content
 --
 --dept( deptno(pk)
 --emp (....,depno(dept.deptno fk))
 
---FK ÄÃ·³·¹º§
+--FK ì»¬ëŸ¼ë ˆë²¨
 create table test02(
 seq number constraint pk_test02_seq primary key
 ,id varchar2(20) constraint fk_test02_id
@@ -52,7 +52,7 @@ seq number constraint pk_test02_seq primary key
 ,content varchar2(100)
 ,constraint fk_test02_id foreign key(id) references test01(id)
 );
---FK Å×ÀÌºí·¹º§
+--FK í…Œì´ë¸”ë ˆë²¨
 create table test02(
 seq number 
 ,id varchar2(20) 
@@ -65,21 +65,21 @@ select *
 from user_constraints
 where table_name like 'TEST0 _';
 
-INSERT INTO test01 values('aaa','È«±æµ¿');
-INSERT INTO test01 values('bbb','ÀÌÇâ¾Æ');
-INSERT INTO test01 values('ccc','±èÇâ¾Æ');
+INSERT INTO test01 values('aaa','í™ê¸¸ë™');
+INSERT INTO test01 values('bbb','ì´í–¥ì•„');
+INSERT INTO test01 values('ccc','ê¹€í–¥ì•„');
 
-INSERT INTO test02 values(1,'ccc','Çâ¾Æ Á¹¸²');
-INSERT INTO test02 values(2,'bbb','Çâ¾Æ ¹è°íÇÄ');
-INSERT INTO test02 values(3,'ccc','¿À´Ã ¹¹¸ÔÁö');
-INSERT INTO test02 values(4,'ccc','°¡º­¿î°Å!');
-INSERT INTO test02 values(5,null,'°­³²¿ª ¤¡¤¡'); --ºÎ¸ð²¨ ²À ÂüÁ¶ÇØ¾ßÇÑ´Ù.
+INSERT INTO test02 values(1,'ccc','í–¥ì•„ ì¡¸ë¦¼');
+INSERT INTO test02 values(2,'bbb','í–¥ì•„ ë°°ê³ í””');
+INSERT INTO test02 values(3,'ccc','ì˜¤ëŠ˜ ë­ë¨¹ì§€');
+INSERT INTO test02 values(4,'ccc','ê°€ë²¼ìš´ê±°!');
+INSERT INTO test02 values(5,null,'ê°•ë‚¨ì—­ ã„±ã„±'); --ë¶€ëª¨êº¼ ê¼­ ì°¸ì¡°í•´ì•¼í•œë‹¤.
 commit;
 
-select * from test01; --ºÎ¸ð Å×ÀÌºí
-select * from test02; -- ÀÚ½Ä Å×ÀÌºí
-delete from test01 where id= 'aaa'; -- ÂüÁ¶ ¾ÈÇÏ¸é »èÁ¦°¡´É
-delete from test01 where id= 'ccc'; --ÂüÁ¶ÇÏ°í ÀÖ¾î¼­ ¿À·ù!!
+select * from test01; --ë¶€ëª¨ í…Œì´ë¸”
+select * from test02; -- ìžì‹ í…Œì´ë¸”
+delete from test01 where id= 'aaa'; -- ì°¸ì¡° ì•ˆí•˜ë©´ ì‚­ì œê°€ëŠ¥
+delete from test01 where id= 'ccc'; --ì°¸ì¡°í•˜ê³  ìžˆì–´ì„œ ì˜¤ë¥˜!!
 
 create table test02(
 seq number 
@@ -87,7 +87,7 @@ seq number
 ,content varchar2(100)
 ,CONSTRAINT pk_test02_seq primary key(seq)
 ,constraint fk_test02_id foreign key(id) references test01(id)
-                        on delete cascade --¿¬¼âÀûÀ¸·Î »èÁ¦
+                        on delete cascade --ì—°ì‡„ì ìœ¼ë¡œ ì‚­ì œ
 );
 
 create table test02(
@@ -96,7 +96,7 @@ seq number
 ,content varchar2(100)
 ,CONSTRAINT pk_test02_seq primary key(seq)
 ,constraint fk_test02_id foreign key(id) references test01(id)
-                        on delete set null --test02¸¸ null·Î ¹Ù²ñ  
+                        on delete set null --test02ë§Œ nullë¡œ ë°”ë€œ  
 );
 
 create table test01(
@@ -104,19 +104,19 @@ create table test01(
 id varchar2(20) 
 ,name varchar2(20)
 );
---Table TEST01ÀÌ(°¡) »ý¼ºµÇ¾ú½À´Ï´Ù.
---Á¦¾àÁ¶°Ç pkÃß°¡
+--Table TEST01ì´(ê°€) ìƒì„±ë˜ì—ˆìŠµë‹ˆë‹¤.
+--ì œì•½ì¡°ê±´ pkì¶”ê°€
 alter table test01
 add(constraint pk_test01_id primary key(id));
---Table TEST01ÀÌ(°¡) º¯°æµÇ¾ú½À´Ï´Ù.
+--Table TEST01ì´(ê°€) ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.
 SELECT *
 FROM USER_CONSTRAINTS
 WHERE table_name = 'TEST01';
---Á¦¾àÁ¶°Ç »èÁ¦
+--ì œì•½ì¡°ê±´ ì‚­ì œ
 ALTER TABLE TEST01
 DROP CONSTRAINT pk_test01_id;
 
---test02Å×ÀÌºí »ý¼º  > alter table¹® > table¿¡ pk,fkÁ¦¾àÁ¶°Ç»ý¼º
+--test02í…Œì´ë¸” ìƒì„±  > alter tableë¬¸ > tableì— pk,fkì œì•½ì¡°ê±´ìƒì„±
 create table test02(
 id varchar2(2)
 ,content varchar2(100)
@@ -135,21 +135,21 @@ add(
         -- on delete cascade 
 );
 
---empÅ×ÀÌºí select (empno,ename, hiredate, mgr)
+--empí…Œì´ë¸” select (empno,ename, hiredate, mgr)
 create table emp_copy as(
 select empno,ename, hiredate, mgr
 from emp
 );
 
 select * from emp_copy;
---where 1=0 ±¸Á¶¸¸ º¹»ç µ¥ÀÌÅÍ(Çà)x
---°¢ ÄÃ·³ÀÇ ÀÚ·áÇü
+--where 1=0 êµ¬ì¡°ë§Œ ë³µì‚¬ ë°ì´í„°(í–‰)x
+--ê° ì»¬ëŸ¼ì˜ ìžë£Œí˜•
 desc emp_copy;
---***Á¦¾àÁ¶°Ç º¹»ç x(not nullÁ¦¾àÁ¶°Ç oo)
+--***ì œì•½ì¡°ê±´ ë³µì‚¬ x(not nullì œì•½ì¡°ê±´ oo)
 select *
 from user_constraints
 where table_name like 'EMP%';
---EMP pk/fk -> emp_copy Á¦¾àÁ¶°Ç º¹»çx(±â¾ïÇÏ¼¼¿é!!)
+--EMP pk/fk -> emp_copy ì œì•½ì¡°ê±´ ë³µì‚¬x(ê¸°ì–µí•˜ì„¸ìš¥!!)
 
 alter table emp_copy
 add(
@@ -176,15 +176,15 @@ create table a (
 id varchar2(10)
 , name varchar2(20)
 );
---***pk¼³Á¤ÈÄ¿¡ notnull + unique Á¦¾àÁ¶°Ç ÀÚµ¿À¸·Î ¼³Á¤ + ÀÎµ¦½º!
+--***pkì„¤ì •í›„ì— notnull + unique ì œì•½ì¡°ê±´ ìžë™ìœ¼ë¡œ ì„¤ì • + ì¸ë±ìŠ¤!
 
---[UNIQUE]Á¦¾à Á¶°Ç ( À¯ÀÏ¼º )
---1. pk ¾Æ´Ï¶óµµ Áßº¹ Çã¿ëÇÏÁö ¾Ê´Â ÄÃ·³ÀÌ Á¸Àç.
+--[UNIQUE]ì œì•½ ì¡°ê±´ ( ìœ ì¼ì„± )
+--1. pk ì•„ë‹ˆë¼ë„ ì¤‘ë³µ í—ˆìš©í•˜ì§€ ì•ŠëŠ” ì»¬ëŸ¼ì´ ì¡´ìž¬.
 -----------------------------
---[student Å×ÀÌºí]
---ÇÐ¹ø(pk) ÇÐ»ý¸í ÁÖ¹Î¹øÈ£(uk) ÀÌ¸ÞÀÏ(uk) ¿¬¶ôÃ³(uk) 
+--[student í…Œì´ë¸”]
+--í•™ë²ˆ(pk) í•™ìƒëª… ì£¼ë¯¼ë²ˆí˜¸(uk) ì´ë©”ì¼(uk) ì—°ë½ì²˜(uk) 
 -------------------------------
---INSAÅ×ÀÌºí¿¡ Á¦¾àÁ¶°Ç È®ÀÎ
+--INSAí…Œì´ë¸”ì— ì œì•½ì¡°ê±´ í™•ì¸
 select *
 from user_constraints
 where table_name = 'INSA';
@@ -194,7 +194,7 @@ ADD(
 CONSTRAINT uk_insa_ssn unique(ssn)
 );
 
---[check Á¦¾àÁ¶°Ç...]
+--[check ì œì•½ì¡°ê±´...]
 alter table score
 add(
 constraint ck_score_kor check(kor between 0 and 100)
@@ -205,23 +205,23 @@ select *
 from user_constraints
 where table_name = 'score';
 
--- insaÅ×ÀÌºí¿¡ city ÄÃ·³ check Á¦¾àÁ¶°Ç
+-- insaí…Œì´ë¸”ì— city ì»¬ëŸ¼ check ì œì•½ì¡°ê±´
 select distinct city
 from insa;
 
 --alter table insa
---add(constraint ck_insa_city check(city in ('¼­¿ï','ÀÎÃµ'...)));
+--add(constraint ck_insa_city check(city in ('ì„œìš¸','ì¸ì²œ'...)));
 
 
---[NOT NULL] **Å×ÀÌºí ·¹º§·Î¸¸ Á¦¾àÁ¶°Ç °¡´É
+--[NOT NULL] **í…Œì´ë¸” ë ˆë²¨ë¡œë§Œ ì œì•½ì¡°ê±´ ê°€ëŠ¥
 create table test05
 (
    id varchar2(20) not null primary key
-   , name varchar2(20) not null  -- ÄÃ·³ ·¹º§ NN Á¦¾à ¼³Á¤
-   , addr varchar2(100)  -- µðÆúÆ® null
-   -- , addr NOT NULL Å×ÀÌºí... X
+   , name varchar2(20) not null  -- ì»¬ëŸ¼ ë ˆë²¨ NN ì œì•½ ì„¤ì •
+   , addr varchar2(100)  -- ë””í´íŠ¸ null
+   -- , addr NOT NULL í…Œì´ë¸”... X
 );
--->ADDRÄÃ·³À» NOTNULL·Î
+-->ADDRì»¬ëŸ¼ì„ NOTNULLë¡œ
 --1)
 ALTER TABLE TEST05
 MODIFY addr notnull;
@@ -230,36 +230,180 @@ ALTER TABLE TEST05
 ADD(
 constraint nn_test05_addr CHECK(ADDR IS NOT NULL)
 );
--->Á¦¾àÁ¶°Ç »èÁ¦
+-->ì œì•½ì¡°ê±´ ì‚­ì œ
 alter table test05
 drop constraint ck_test05_addr;
 
---[Á¦¾àÁ¶°Ç È°¼ºÈ­&ºñÈ°¼ºÈ­]
---¡¼Çü½Ä¡½--È°¼ºÈ­
---	ALTER TABLE Å×ÀÌºí¸í
---	ENABLE CONSTRAINT constraint¸í;
+--[ì œì•½ì¡°ê±´ í™œì„±í™”&ë¹„í™œì„±í™”]
+--ã€í˜•ì‹ã€‘--í™œì„±í™”
+--	ALTER TABLE í…Œì´ë¸”ëª…
+--	ENABLE CONSTRAINT constraintëª…;
 --
---¡¼Çü½Ä¡½--ºñÈ°¼ºÈ­
---	ALTER TABLE Å×ÀÌºí¸í
---	DISABLE CONSTRAINT constraint¸í [CASCADE];
+--ã€í˜•ì‹ã€‘--ë¹„í™œì„±í™”
+--	ALTER TABLE í…Œì´ë¸”ëª…
+--	DISABLE CONSTRAINT constraintëª… [CASCADE];
 
---[Á¦¾àÁ¶°Ç »èÁ¦]
---¹æ¹ý1)
---ALTER TABLE Å×ÀÌºí¸í 
---DROP [CONSTRAINT constraint¸í | PRIMARY KEY | UNIQUE(ÄÃ·³¸í)]
+--[ì œì•½ì¡°ê±´ ì‚­ì œ]
+--ë°©ë²•1)
+--ALTER TABLE í…Œì´ë¸”ëª… 
+--DROP [CONSTRAINT constraintëª… | PRIMARY KEY | UNIQUE(ì»¬ëŸ¼ëª…)]
 --[CASCADE];
 --
---CASCADE¿É¼ÇÀº ÂüÁ¶ÇÏ´Â FOREIGN KEY°¡ ÀÖÀ» ¶§ »ç¿ëÇÑ´Ù.
+--CASCADEì˜µì…˜ì€ ì°¸ì¡°í•˜ëŠ” FOREIGN KEYê°€ ìžˆì„ ë•Œ ì‚¬ìš©í•œë‹¤.
 --
---¹æ¹ý2)
---DROP TABLE Å×ÀÌºí¸í CASCADE CONSTRAINTS;
+--ë°©ë²•2)
+--DROP TABLE í…Œì´ë¸”ëª… CASCADE CONSTRAINTS;
 --
---Å×ÀÌºí°ú ±× Å×ÀÌºíÀ» ÂüÁ¶ÇÏ´Â foreign key¸¦ µ¿½Ã¿¡ »èÁ¦ÇÒ ¼ö ÀÖ´Ù.
+--í…Œì´ë¸”ê³¼ ê·¸ í…Œì´ë¸”ì„ ì°¸ì¡°í•˜ëŠ” foreign keyë¥¼ ë™ì‹œì— ì‚­ì œí•  ìˆ˜ ìžˆë‹¤.
 --
---¹æ¹ý3)
---DROP TABLESPACE Å×ÀÌºí½ºÆäÀÌ½º¸í 
+--ë°©ë²•3)
+--DROP TABLESPACE í…Œì´ë¸”ìŠ¤íŽ˜ì´ìŠ¤ëª… 
 --INCLUDING CONTENTS
 --CASCADE CONSTRAINTS;
 --
---ÀÌ ¹æ¹ýÀº Å×ÀÌºíÀÌ ´Ù¸¥ Å×ÀÌºí½ºÆäÀÌ½º¿¡ ÀÖ´Â Å×ÀÌºíÀÇ FOREIGN KEY¿¡ ÀÇÇÏ¿© ÂüÁ¶µÇ´Â °æ¿ì TABLESPACE±îÁö ÇÔ²² »èÁ¦ÇÏ´Â °æ¿ìÀÌ´Ù.
+--ì´ ë°©ë²•ì€ í…Œì´ë¸”ì´ ë‹¤ë¥¸ í…Œì´ë¸”ìŠ¤íŽ˜ì´ìŠ¤ì— ìžˆëŠ” í…Œì´ë¸”ì˜ FOREIGN KEYì— ì˜í•˜ì—¬ ì°¸ì¡°ë˜ëŠ” ê²½ìš° TABLESPACEê¹Œì§€ í•¨ê»˜ ì‚­ì œí•˜ëŠ” ê²½ìš°ì´ë‹¤.
 
+CREATE TABLE book(
+       b_id     VARCHAR2(10)  NOT NULL PRIMARY KEY
+      ,title      VARCHAR2(100) NOT NULL
+      ,c_name  VARCHAR2(100) NOT NULL
+);
+
+CREATE TABLE danga(
+      b_id  VARCHAR2(10)  NOT NULL
+      ,price  NUMBER(7) NOT NULL
+      ,CONSTRAINT PK_dangga_id PRIMARY KEY(b_id)
+      ,CONSTRAINT FK_dangga_id FOREIGN KEY (b_id)
+              REFERENCES book(b_id)
+              ON DELETE CASCADE
+);
+
+CREATE TABLE gogaek(
+      g_id       NUMBER(5) NOT NULL PRIMARY KEY
+      ,g_name   VARCHAR2(20) NOT NULL
+      ,g_tel      VARCHAR2(20)
+);
+
+CREATE TABLE panmai(
+       id         NUMBER(5) NOT NULL PRIMARY KEY
+      ,g_id       NUMBER(5) NOT NULL CONSTRAINT FK_PANMAI_GID
+                     REFERENCES gogaek(g_id) ON DELETE CASCADE
+      ,b_id       VARCHAR2(10)  NOT NULL CONSTRAINT FK_PANMAI_BID
+                     REFERENCES book(b_id) ON DELETE CASCADE
+      ,p_date     DATE DEFAULT SYSDATE
+      ,p_su       NUMBER(5)  NOT NULL
+);
+
+CREATE TABLE au_book(
+       id   number(5)  NOT NULL PRIMARY KEY
+      ,b_id VARCHAR2(10)  NOT NULL  CONSTRAINT FK_AUBOOK_BID
+            REFERENCES book(b_id) ON DELETE CASCADE
+      ,name VARCHAR2(20)  NOT NULL
+);
+
+INSERT INTO book (b_id, title, c_name) VALUES ('a-1', 'ë°ì´í„°ë² ì´ìŠ¤', 'ì„œìš¸');
+INSERT INTO book (b_id, title, c_name) VALUES ('a-2', 'ë°ì´í„°ë² ì´ìŠ¤', 'ê²½ê¸°');
+INSERT INTO book (b_id, title, c_name) VALUES ('b-1', 'ìš´ì˜ì²´ì œ', 'ë¶€ì‚°');
+INSERT INTO book (b_id, title, c_name) VALUES ('b-2', 'ìš´ì˜ì²´ì œ', 'ì¸ì²œ');
+INSERT INTO book (b_id, title, c_name) VALUES ('c-1', 'ì›Œë“œ', 'ê²½ê¸°');
+INSERT INTO book (b_id, title, c_name) VALUES ('d-1', 'ì—‘ì…€', 'ëŒ€êµ¬');
+INSERT INTO book (b_id, title, c_name) VALUES ('e-1', 'íŒŒì›Œí¬ì¸íŠ¸', 'ë¶€ì‚°');
+INSERT INTO book (b_id, title, c_name) VALUES ('f-1', 'ì—‘ì„¸ìŠ¤', 'ì¸ì²œ');
+INSERT INTO book (b_id, title, c_name) VALUES ('f-2', 'ì—‘ì„¸ìŠ¤', 'ì„œìš¸');
+INSERT INTO danga (b_id, price) VALUES ('a-1', 300);
+INSERT INTO danga (b_id, price) VALUES ('a-2', 500);
+INSERT INTO danga (b_id, price) VALUES ('b-1', 450);
+INSERT INTO danga (b_id, price) VALUES ('b-2', 440);
+INSERT INTO danga (b_id, price) VALUES ('c-1', 320);
+INSERT INTO danga (b_id, price) VALUES ('d-1', 321);
+INSERT INTO danga (b_id, price) VALUES ('e-1', 250);
+INSERT INTO danga (b_id, price) VALUES ('f-1', 510);
+INSERT INTO danga (b_id, price) VALUES ('f-2', 400);
+INSERT INTO gogaek (g_id, g_name, g_tel) VALUES (1, 'ìš°ë¦¬ì„œì ', '111-1111');
+INSERT INTO gogaek (g_id, g_name, g_tel) VALUES (2, 'ë„ì‹œì„œì ', '111-1111');
+INSERT INTO gogaek (g_id, g_name, g_tel) VALUES (3, 'ì§€êµ¬ì„œì ', '333-3333');
+INSERT INTO gogaek (g_id, g_name, g_tel) VALUES (4, 'ì„œìš¸ì„œì ', '444-4444');
+INSERT INTO gogaek (g_id, g_name, g_tel) VALUES (5, 'ìˆ˜ë„ì„œì ', '555-5555');
+INSERT INTO gogaek (g_id, g_name, g_tel) VALUES (6, 'ê°•ë‚¨ì„œì ', '666-6666');
+INSERT INTO gogaek (g_id, g_name, g_tel) VALUES (7, 'ê°•ë¶ì„œì ', '777-7777');
+INSERT INTO panmai (id, g_id, b_id, p_date, p_su) VALUES (1, 1, 'a-1', '2000-10-10', 10);
+INSERT INTO panmai (id, g_id, b_id, p_date, p_su) VALUES (2, 2, 'a-1', '2000-03-04', 20);
+INSERT INTO panmai (id, g_id, b_id, p_date, p_su) VALUES (3, 1, 'b-1', DEFAULT, 13);
+INSERT INTO panmai (id, g_id, b_id, p_date, p_su) VALUES (4, 4, 'c-1', '2000-07-07', 5);
+INSERT INTO panmai (id, g_id, b_id, p_date, p_su) VALUES (5, 4, 'd-1', DEFAULT, 31);
+INSERT INTO panmai (id, g_id, b_id, p_date, p_su) VALUES (6, 6, 'f-1', DEFAULT, 21);
+INSERT INTO panmai (id, g_id, b_id, p_date, p_su) VALUES (7, 7, 'a-1', DEFAULT, 26);
+INSERT INTO panmai (id, g_id, b_id, p_date, p_su) VALUES (8, 6, 'a-1', DEFAULT, 17);
+INSERT INTO panmai (id, g_id, b_id, p_date, p_su) VALUES (9, 6, 'b-1', DEFAULT, 5);
+INSERT INTO panmai (id, g_id, b_id, p_date, p_su) VALUES (10, 7, 'a-2', '2000-10-10', 15);
+INSERT INTO au_book (id, b_id, name) VALUES (1, 'a-1', 'ì €íŒ”ê°œ');
+INSERT INTO au_book (id, b_id, name) VALUES (2, 'b-1', 'ì†ì˜¤ê³µ');
+INSERT INTO au_book (id, b_id, name) VALUES (3, 'a-1', 'ì‚¬ì˜¤ì •');
+INSERT INTO au_book (id, b_id, name) VALUES (4, 'b-1', 'ê¹€ìœ ì‹ ');
+INSERT INTO au_book (id, b_id, name) VALUES (5, 'c-1', 'ìœ ê´€ìˆœ');
+INSERT INTO au_book (id, b_id, name) VALUES (6, 'd-1', 'ê¹€í•˜ëŠ˜');
+INSERT INTO au_book (id, b_id, name) VALUES (7, 'a-1', 'ì‹¬ì‹¬í•´');
+INSERT INTO au_book (id, b_id, name) VALUES (8, 'd-1', 'í—ˆì²¨');
+INSERT INTO au_book (id, b_id, name) VALUES (9, 'e-1', 'ì´í•œë‚˜');
+INSERT INTO au_book (id, b_id, name) VALUES (10, 'f-1', 'ì •ë§ìž');
+INSERT INTO au_book (id, b_id, name) VALUES (11, 'f-2', 'ì´ì˜ì• ');
+
+COMMIT;
+
+SELECT * FROM book;
+SELECT * FROM danga;
+SELECT * FROM gogaek;
+SELECT * FROM panmai;
+SELECT * FROM au_book;
+
+--[ë™ë“±ì¡°ì¸( equi join )]
+-- where ì¡°ê±´ì ˆ and ì¡°ì¸ì¡°ê±´ = ì—°ì‚°ìž
+
+select e.empno,  ename, d.deptno, dname
+from emp e, dept d
+where d.deptno = e.DEPTNO;
+
+select b.b_id, title, c_name , price
+from book b , danga d
+where b.b_id= d.b_id;
+
+-->ê° ì±… ì¢…ë¥˜ë³„ë¡œ ê°€ê²© ê°€ìž¥ ë†’ì€ ê²ƒ ì¡°íšŒ?
+select b.b_id, title, c_name , price
+from book b , danga d 
+where b.b_id = d.b_id ;
+
+select *
+from 
+(
+select b.b_id, title, c_name , price 
+        ,rank() over(partition by title order by price desc) r
+from book b , danga d 
+where b.b_id = d.b_id )
+where r = 1;
+
+--[ANSI JOIN]
+--where ì¡°ì¸ ì¡°ê±´ 
+--1> from join on
+
+select b.b_id, title, c_name , price
+from book b join danga d 
+on b.b_id = d.b_id ;
+
+--2>      using  -ë³„ì¹­ì‚¬ìš© XX
+
+select b_id, title, c_name , price
+from book join danga 
+using( b_id );
+
+-->ë™ë“± ì¡°ì¸ = [ì˜¤ë¼í´] NATURAL JOIN
+select b_id, title, c_name , price
+from book NATURAL join danga ; --ê°ì²´ëª… ì‚¬ìš©XXX
+
+--[NON-EQUI]
+SELECT EMPNO, ENAME,SAL, GRADE
+FROM EMP e , SALGRADE s
+WHERE sal between losal and hisal ;
+
+-->ANSI JOIN
+SELECT EMPNO, ENAME,SAL, GRADE
+FROM EMP JOIN SALGRADE ON sal between losal and hisal ;

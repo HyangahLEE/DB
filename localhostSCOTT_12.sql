@@ -368,7 +368,7 @@ begin
     end loop;
     close emp_cursor;
 end;
---
+---- 명시적 커서 + 레코드 타입 수정 3 ..
 declare
   type empxxx is record
   (

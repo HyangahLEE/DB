@@ -1,12 +1,12 @@
---2017.07.03 (È­)
---PL/SQL : ºí·Ï(3°³) ±¸Á¶ ¾ð¾î
+--2017.07.03 (í™”)
+--PL/SQL : ë¸”ë¡(3ê°œ) êµ¬ì¡° ì–¸ì–´
 DECLARE
-    -- 1. ¼±¾ðºÎ : º¯¼ö , »ó¼ö, Ä¿¼­ µîµî
+    -- 1. ì„ ì–¸ë¶€ : ë³€ìˆ˜ , ìƒìˆ˜, ì»¤ì„œ ë“±ë“±
     vmaxsal emp.sal%type;
     vemprow emp%rowtype;
 BEGIN
-    -- 2. ½ÇÇàºÎ
-    --    :=  INTO select/fetch(cursor)°¡Á®¿À±â
+    -- 2. ì‹¤í–‰ë¶€
+    --    :=  INTO select/fetch(cursor)ê°€ì ¸ì˜¤ê¸°
      SELECT MAX(SAL)
         into vmaxsal
      FROM EMP;
@@ -50,29 +50,29 @@ begin
      vgrade := 4;
    end if;
    */
-  dbms_output.put_line('> 7369ÀÇ sal : ' || vsal );
-  dbms_output.put_line('> 7369ÀÇ grade : ' || vgrade );
+  dbms_output.put_line('> 7369ì˜ sal : ' || vsal );
+  dbms_output.put_line('> 7369ì˜ grade : ' || vgrade );
 -- exception
 end;
 
---> Á¤¼ö¸¦ ÀÔ·Â¹Þ¾Æ¼­ È¦/Â¦¼ö Ãâ·Â.
+--> ì •ìˆ˜ë¥¼ ìž…ë ¥ë°›ì•„ì„œ í™€/ì§ìˆ˜ ì¶œë ¥.
 DECLARE
     vn number(3,0);
-    vresult varchar(6) :='È¦¼ö';
+    vresult varchar(6) :='í™€ìˆ˜';
 BEGIN
     vn := :n;
-    if mod(vn,2)=0 then vresult := 'Â¦¼ö';
+    if mod(vn,2)=0 then vresult := 'ì§ìˆ˜';
     end if;
     dbms_output.put_line( vn|| ' : ' || vresult );
 END;
 
---p277 case¹®
--- select Àý¿¡¼­ case Ç¥Çö½ÄÀ» »ç¿ëÇßµíÀÌ pl/sql ¾È¿¡¼­ case¹®À» »ç¿ë ÇÒ ¼ö ÀÖ´Ù. 
--->dbms_random ÆÐÅ°Áö
+--p277 caseë¬¸
+-- select ì ˆì—ì„œ case í‘œí˜„ì‹ì„ ì‚¬ìš©í–ˆë“¯ì´ pl/sql ì•ˆì—ì„œ caseë¬¸ì„ ì‚¬ìš© í•  ìˆ˜ ìžˆë‹¤. 
+-->dbms_random íŒ¨í‚¤ì§€
         
-select  dbms_random.string('u',5) --a>¾ËÆÄºª ´ë¼Ò¹®ÀÚ±¸ºÐ ¤¤¤¤, u >´ë¹®ÀÚ·£´ý , ¤Ó> ¼Ò¹®ÀÚ·£´ý 
-        , dbms_random.value --0.0 <= ½Ç¼ö < 1
-        , dbms_random.value(1,45) --1.0 <= ½Ç¼ö < 45
+select  dbms_random.string('u',5) --a>ì•ŒíŒŒë²³ ëŒ€ì†Œë¬¸ìžêµ¬ë¶„ ã„´ã„´, u >ëŒ€ë¬¸ìžëžœë¤ , ã…£> ì†Œë¬¸ìžëžœë¤ 
+        , dbms_random.value --0.0 <= ì‹¤ìˆ˜ < 1
+        , dbms_random.value(1,45) --1.0 <= ì‹¤ìˆ˜ < 45
 from dual;
 
 declare
@@ -87,26 +87,26 @@ begin
     where deptno= vn_deptno and rownum=1 ;
     dbms_output.put_line(vn_sal);
     
-    case when vn_sal between 1 and 3000 then  dbms_output.put_line('³·À½');
-        when vn_sal between 3001 and 6000 then  dbms_output.put_line('Áß°£');
-        when vn_sal between 6001 and 10000 then  dbms_output.put_line('³ôÀ½');
-        else dbms_output.put_line('ÃÖ»óÀ§');
+    case when vn_sal between 1 and 3000 then  dbms_output.put_line('ë‚®ìŒ');
+        when vn_sal between 3001 and 6000 then  dbms_output.put_line('ì¤‘ê°„');
+        when vn_sal between 6001 and 10000 then  dbms_output.put_line('ë†’ìŒ');
+        else dbms_output.put_line('ìµœìƒìœ„');
     end case;
 end;
 
---[¹Ýº¹¹®] : Loop, While, For
+--[ë°˜ë³µë¬¸] : Loop, While, For
 --loop
---    --¹Ýº¹ Ã³¸® ±¸¹®
---    exit [when Á¶°Ç];
+--    --ë°˜ë³µ ì²˜ë¦¬ êµ¬ë¬¸
+--    exit [when ì¡°ê±´];
 --end loop;
 ----
---while Á¶°Ç½Ä
+--while ì¡°ê±´ì‹
 --loop
---    --¹Ýº¹ Ã³¸® ±¸¹®
+--    --ë°˜ë³µ ì²˜ë¦¬ êµ¬ë¬¸
 --end loop
---for i¹Ýº¹º¯¼ö in [reversre] ÃÊ±â¹Ü..ÃÖÁ¾°ª
+--for ië°˜ë³µë³€ìˆ˜ in [reversre] ì´ˆê¸°ë°—..ìµœì¢…ê°’
 --loop
-    --Ã³¸®¹®
+    --ì²˜ë¦¬ë¬¸
 --end loop;
 
 -------------------
@@ -135,7 +135,7 @@ loop
 end loop;
 end;
 
---> ¹®) 1~n±îÁöÀÇ ÇÕ Ãâ·Â
+--> ë¬¸) 1~nê¹Œì§€ì˜ í•© ì¶œë ¥
 DEClare
 vsum number := 0;
 vi number :=1;
@@ -201,7 +201,7 @@ dbms_output.put_line(vn_base_num || '*' || vn_cnt || '= ' || vn_base_num * vn_cn
 end loop;
 end;
 
---¹®Á¦ 2´Ü¿¡¼­ 9´Ü±îÁö Ãâ·Â
+--ë¬¸ì œ 2ë‹¨ì—ì„œ 9ë‹¨ê¹Œì§€ ì¶œë ¥
 declare
  --   vi number :=2;
   --  vj number :=1;
@@ -215,7 +215,7 @@ begin
          dbms_output.put_line(' ');
     end loop;
 end;
---***for¹®¿¡ »ç¿ëµÇ´Â ¹Ýº¹º¯¼ö´Â ¼±¾ðÇÏÁö¾Ê¾Æµµ µÈ´Ù.
+--***forë¬¸ì— ì‚¬ìš©ë˜ëŠ” ë°˜ë³µë³€ìˆ˜ëŠ” ì„ ì–¸í•˜ì§€ì•Šì•„ë„ ëœë‹¤.
 
 begin
     for vj in 1..9
@@ -228,19 +228,19 @@ begin
     end loop;
 end;
 
---> empÅ×ÀÌºí¿¡¼­ deptno= 10»ç¿øÀÇ Á¤º¸¸¦ Á¶È¸(Ãâ·Â)
+--> empí…Œì´ë¸”ì—ì„œ deptno= 10ì‚¬ì›ì˜ ì •ë³´ë¥¼ ì¡°íšŒ(ì¶œë ¥)
 declare
    -- vemprow emp%rowtype;
 begin
-    --1. ÀÚµ¿(¾Ï½ÃÀû)À¸·Î Ä¿¼­ »ý¼º 
-    --2. ÀÚµ¿ open 
+    --1. ìžë™(ì•”ì‹œì )ìœ¼ë¡œ ì»¤ì„œ ìƒì„± 
+    --2. ìžë™ open 
     for vemprow in (select *  from emp  where deptno =10)
     loop
-        --3. ¹Ýº¹ÀûÀ¸·Î FETCH
+        --3. ë°˜ë³µì ìœ¼ë¡œ FETCH
      DBMS_OUTPUT.PUT_LINE(vemprow.empno || vemprow.ename);
      end loop;  
      
-     --4. ÀÚµ¿ close
+     --4. ìžë™ close
 end;
 
 
@@ -263,7 +263,7 @@ end;
 
 select *
 from cstvsboard;
---¼º´É Å×½ºÆ® 100¸¸°³ÀÇ ·¹ÄÚµå(°Ô½Ã±Û) Ãß°¡..
+--ì„±ëŠ¥ í…ŒìŠ¤íŠ¸ 100ë§Œê°œì˜ ë ˆì½”ë“œ(ê²Œì‹œê¸€) ì¶”ê°€..
 declare
 begin
   for i in 1.. 1000
@@ -275,32 +275,32 @@ begin
       (seq_cstVSBoard.nextval
       , dbms_random.string('U',5) 
       ,'1234',null
-      , '¹Ýº¹ -' || i || ' ¹øÂ° °Ô½Ã±Û','y','pl/sql ¹Ýº¹Ã³¸®'); 
+      , 'ë°˜ë³µ -' || i || ' ë²ˆì§¸ ê²Œì‹œê¸€','y','pl/sql ë°˜ë³µì²˜ë¦¬'); 
   end loop;
   commit;
 -- exception
 end;
 
---[·¹ÄÚµåº¯¼ö]
---¡¼Çü½Ä¡½ 
---    TYPE [type¸í] IS RECORD 
+--[ë ˆì½”ë“œë³€ìˆ˜]
+--ã€í˜•ì‹ã€‘ 
+--    TYPE [typeëª…] IS RECORD 
 --      ( field_name1  datatype [[NOT NULL] { := ? DEFAULT} expr] 
 --        field_name2  datatype [[NOT NULL] { := ? DEFAULT} expr] 
 --       .................. 
 --      );
---    record¸í   type¸í;
+--    recordëª…   typeëª…;
  
---¡¼¿¹½Ã¡½
+--ã€ì˜ˆì‹œã€‘
   DECLARE 
-  --º¯¼ö¼±¾ð
-  --recode ÀÚ·áÇü ¼±¾ð
+  --ë³€ìˆ˜ì„ ì–¸
+  --recode ìžë£Œí˜• ì„ ì–¸
    type empdept_type IS RECORD
    (empno emp.empno%type,
    ename emp.ename%type,
    hiredate emp.hiredate%type,
     dname	VARCHAR2(13),
     loc		VARCHAR2(14));
-    --À§ÀÇ »õ·Î¿î ·¹ÄÚµåÇü ÀÚ·áÇüÀ¸·Î º¯¼ö¼±¾ð
+    --ìœ„ì˜ ìƒˆë¡œìš´ ë ˆì½”ë“œí˜• ìžë£Œí˜•ìœ¼ë¡œ ë³€ìˆ˜ì„ ì–¸
    vedRow  empdept_type;
   BEGIN
    select empno,ename, hiredate, dname, loc
@@ -314,11 +314,11 @@ end;
   END;
 
 
---p342 Ä¿¼­(cursor)
---1. Ä¿¼­ ? sql¹®ÀåÀ» Ã³¸®ÇÑ °á°ú¸¦ ´ã°í ÀÖ´Â ¸Þ¸ð¸® ¿µ¿ªÀ» °¡¸®Å°´Â ÀÏÁ¾ÀÇ Æ÷ÀÎÅÍÀÌ´Ù.
---2. Ä¿¼­ Á¾·ù : ¹¬½ÃÀû(¾Ï½ÃÀû,ÀÚµ¿) Ä¿¼­, ¸í½ÃÀû(°­Á¦)Ä¿¼­
---3. Ä¿¼­ Ã³¸® ¼ø¼­ : Ä¿¼­ ¼±¾ð > open > ¹Ýº¹Àû fetch > close
---4. Ä¿¼­ »ç¿ë ¿¹) insert, update, delete ¾Ï½ÃÀû Ä¿¼­..
+--p342 ì»¤ì„œ(cursor)
+--1. ì»¤ì„œ ? sqlë¬¸ìž¥ì„ ì²˜ë¦¬í•œ ê²°ê³¼ë¥¼ ë‹´ê³  ìžˆëŠ” ë©”ëª¨ë¦¬ ì˜ì—­ì„ ê°€ë¦¬í‚¤ëŠ” ì¼ì¢…ì˜ í¬ì¸í„°ì´ë‹¤.
+--2. ì»¤ì„œ ì¢…ë¥˜ : ë¬µì‹œì (ì•”ì‹œì ,ìžë™) ì»¤ì„œ, ëª…ì‹œì (ê°•ì œ)ì»¤ì„œ
+--3. ì»¤ì„œ ì²˜ë¦¬ ìˆœì„œ : ì»¤ì„œ ì„ ì–¸ > open > ë°˜ë³µì  fetch > close
+--4. ì»¤ì„œ ì‚¬ìš© ì˜ˆ) insert, update, delete ì•”ì‹œì  ì»¤ì„œ..
 begin
     update emp
     set ename= 'admin';
@@ -326,23 +326,23 @@ begin
     DBMS_OUTPUT.PUT_LINE(sql%rowcount);
 end;
 
---°á°ú : 12
+--ê²°ê³¼ : 12
 
---¹¬½ÃÀû Ä¿¼­
+--ë¬µì‹œì  ì»¤ì„œ
 begin
  for vrec in (select deptno, ename, sal, hiredate from emp)
     loop
     DBMS_OUTPUT.PUT_LINE( vrec.deptno ||' '|| vrec.ename||' ' || vrec.hiredate);
     end loop;
 end;
---¸í½ÃÀû Ä¿¼­
+--ëª…ì‹œì  ì»¤ì„œ
 declare
-    --1.Ä¿¼­ ¼±¾ð
+    --1.ì»¤ì„œ ì„ ì–¸
     cursor emp_cursor is (select deptno, ename, sal, hiredate from emp);
 begin
     --2. open
    -- open emp_cursor;
-    --3. ¹Ýº¹Àûfetch --for¹®À» ¾²¸é open $ close ÀÚµ¿
+    --3. ë°˜ë³µì fetch --forë¬¸ì„ ì“°ë©´ open $ close ìžë™
     for vrec in emp_cursor
     loop
     DBMS_OUTPUT.PUT_LINE( vrec.deptno ||' '|| vrec.ename||' ' || vrec.hiredate);
@@ -351,7 +351,7 @@ begin
    -- close emp_cursor;
 end;
 --
---¸í½ÃÀû Ä¿¼­ ¼±¾ð 2
+--ëª…ì‹œì  ì»¤ì„œ ì„ ì–¸ 2
 declare
     vdeptno emp.deptno%type; 
     vename emp.ename%type; 
@@ -369,62 +369,63 @@ begin
     close emp_cursor;
 end;
 --
--- ¸í½ÃÀû Ä¿¼­ + ·¹ÄÚµåÅ¸ÀÔ 
 declare
-    type empxxx is record
-    (
-    deptno emp.deptno%type; 
-    ename emp.ename%type; 
+  type empxxx is record
+  (
+    deptno emp.deptno%type;
+    ename emp.ename%type;
     sal emp.sal%type;
     hiredate emp.hiredate%type;
-    );
-    
-    vrec empxxx;
+  ); 
+  vrec expxxx;
+  cursor emp_cursor 
+      is (select deptno, ename, sal, hiredate from emp);
 begin
-    open emp_cursor;
-    loop
-    fetch emp_cursor into vrec;
-    exit when emp_cursor%notfound;
-    DBMS_OUTPUT.PUT_LINE(  vrec.deptno ||' '|| vrec.vename||' ' || vrec.vhiredate);
-    end loop;
-    close emp_cursor;
-end;
+     open emp_cursor;
+     loop
+        fetch emp_cursor into vrec;
+        dbms_output.put_line( vrec.deptno || ' ' || 
+                             vrec.ename  || ' ' || 
+                             vrec.hiredate);
+     --exit when emp_cursor%notfound;
+     exit when emp_cursor%rowcount >= 5;
+     end loop;
+     close emp_cursor;
+end; 
 
-
-
--- ***** ¸ðµ¨¸µ ***** --
-1. DB ( DATABASE ) ? °ü·ÃµÈ µ¥ÀÌÅÍ ÁýÇÕ.
+-- ***** ëª¨ë¸ë§ ***** --
+1. DB ( DATABASE ) ? ê´€ë ¨ëœ ë°ì´í„° ì§‘í•©.
 2. DBMS ? Oracle
-3. ½ºÅ°¸¶ ( Schema ) : scott °èÁ¤ scott½ºÅ°¸¶.DB°´Ã¼
-    DBÀÇ ±¸Á¶ ( °´Ã¼, ¼Ó¼º, °ü°è )¿Í Á¦¾à Á¶°Ç¿¡ ´ëÇÑ ¸í¼¼¸¦ ±â¼ú ÇÑ °Í.
-    1)¿ÜºÎ 2)°³³ä 3)³»ºÎ½ºÅ°¸¶
-4. DBA : DB°ü¸®ÀÚ SYS> SYSTEM
-5. DB ½Ã½ºÅÛ = DB + DBMS(oracle)+ ÀÀ¿ëÇÁ·Î±×·¥
-6. DB ¸ðµ¨¸µ( MODELING ) ?
-    -> Çö½Ç ¼¼°è¿¡ Á¸ÀçÇÏ´Â ¾÷¹«ÀûÀÎ ÇÁ·Î¼¼½º¸¦ ÆÄ¾ÇÇØ¼­ 
-       ¹°¸®ÀûÀ¸·Î µ¥ÀÌÅÍº£ÀÌ½ºÈ­ ½ÃÅ°´Â °úÁ¤.
-       EX) ¼îÇÎ¸ô ±¸¸Å : ¾÷¹« ÇÁ·Î¼¼½º ÆÄ¾Ç 
-       1) DB Modeling ÀýÂ÷(¼ø¼­)
-       ¤¡. ¾÷¹« ÆÄ¾Ç ( ¿ä±¸ºÐ¼® )
-        -> ¿ä±¸Á¶°Ç ¸í¼¼¼­ ¼­·ù
-       ¤¤. °³³äÀû DB¸ðµ¨¸µ : ½ÇÃ¼(°³Ã¼)+ ¼Ó¼º ÆÄ¾Ç > ERD 
-       ¤§. ³í¸®Àû DB¸ðµ¨¸µ : 
-            ERD > ¸ÅÇÎ·ê ( mapping rule )¿¡ µû¶ó ½ºÅ°¸¶ ¼³°è
-                  Á¤±ÔÈ­ ( Á¦ 1Á¤±ÔÈ­~Á¦ 5Á¤±ÔÈ­ )
-                  -- DBMS °áÁ¤ --
-       ¤©. ¹°¸®Àû DB¸ðµ¨¸µ
-            - ÄÃ·³ datatype, sizsÁ¤ÀÇ ( number int )
-            - ¼º´É Çâ»óÀ» À§ÇÑ ÀÎµ¦½º, ¿ªÁ¤±ÔÈ­ ...ÀÛ¾÷
+3. ìŠ¤í‚¤ë§ˆ ( Schema ) : scott ê³„ì • scottìŠ¤í‚¤ë§ˆ.DBê°ì²´
+    DBì˜ êµ¬ì¡° ( ê°ì²´, ì†ì„±, ê´€ê³„ )ì™€ ì œì•½ ì¡°ê±´ì— ëŒ€í•œ ëª…ì„¸ë¥¼ ê¸°ìˆ  í•œ ê²ƒ.
+    1)ì™¸ë¶€ 2)ê°œë… 3)ë‚´ë¶€ìŠ¤í‚¤ë§ˆ
+4. DBA : DBê´€ë¦¬ìž SYS> SYSTEM
+5. DB ì‹œìŠ¤í…œ = DB + DBMS(oracle)+ ì‘ìš©í”„ë¡œê·¸ëž¨
+6. DB ëª¨ë¸ë§( MODELING ) ?
+    -> í˜„ì‹¤ ì„¸ê³„ì— ì¡´ìž¬í•˜ëŠ” ì—…ë¬´ì ì¸ í”„ë¡œì„¸ìŠ¤ë¥¼ íŒŒì•…í•´ì„œ 
+       ë¬¼ë¦¬ì ìœ¼ë¡œ ë°ì´í„°ë² ì´ìŠ¤í™” ì‹œí‚¤ëŠ” ê³¼ì •.
+       EX) ì‡¼í•‘ëª° êµ¬ë§¤ : ì—…ë¬´ í”„ë¡œì„¸ìŠ¤ íŒŒì•… 
+       1) DB Modeling ì ˆì°¨(ìˆœì„œ)
+       ã„±. ì—…ë¬´ íŒŒì•… ( ìš”êµ¬ë¶„ì„ )
+        -> ìš”êµ¬ì¡°ê±´ ëª…ì„¸ì„œ ì„œë¥˜
+       ã„´. ê°œë…ì  DBëª¨ë¸ë§ : ì‹¤ì²´(ê°œì²´)+ ì†ì„± íŒŒì•… > ERD 
+       ã„·. ë…¼ë¦¬ì  DBëª¨ë¸ë§ : 
+            ERD > ë§¤í•‘ë£° ( mapping rule )ì— ë”°ë¼ ìŠ¤í‚¤ë§ˆ ì„¤ê³„
+                  ì •ê·œí™” ( ì œ 1ì •ê·œí™”~ì œ 5ì •ê·œí™” )
+                  -- DBMS ê²°ì • --
+       ã„¹. ë¬¼ë¦¬ì  DBëª¨ë¸ë§
+            - ì»¬ëŸ¼ datatype, sizsì •ì˜ ( number int )
+            - ì„±ëŠ¥ í–¥ìƒì„ ìœ„í•œ ì¸ë±ìŠ¤, ì—­ì •ê·œí™” ...ìž‘ì—…
             
 -- ER -Win
-1. ¾÷¹« ÇÁ·Î¼¼½º ÆÄ¾Ç ( ¿ä±¸, ºÐ¼® ) -> [ ¿ä±¸ ºÐ¼® ¸í¼¼¼­ ÀÛ¼º ]
-    ¤¡. ¾÷¹« °ü·Ã ºÐ¾ß¿¡ ´ëÇÑ Áö½Ä°ú »ó½Ä
-    ¤¤. ½ÅÀÔ »ç¿ø ÀÔÀå + ¾÷¹« ÇÁ·Î¼¼½º ÆÄ¾Ç. ºÐ¼®
-    ¤§. ¼­·ù, ÀåÇ¥, º¸°í¼­ µîµî °¢Á¾ ¹®¼­¸¦ ÀÌ¿ëÇØ¼­ ¾÷¹«ÆÄ¾Ç.
-    ¤©. ½Ç¹«ÀÚ ¹ÌÆÃ
-    ¤±. ¹é±×¶ó¿îµå ÇÁ·Î¼¼½º ÆÄ¾Ç.
-    ¤². »ç¿ëÀÚ ¿ä±¸ ºÐ¼®.
+1. ì—…ë¬´ í”„ë¡œì„¸ìŠ¤ íŒŒì•… ( ìš”êµ¬, ë¶„ì„ ) -> [ ìš”êµ¬ ë¶„ì„ ëª…ì„¸ì„œ ìž‘ì„± ]
+    ã„±. ì—…ë¬´ ê´€ë ¨ ë¶„ì•¼ì— ëŒ€í•œ ì§€ì‹ê³¼ ìƒì‹
+    ã„´. ì‹ ìž… ì‚¬ì› ìž…ìž¥ + ì—…ë¬´ í”„ë¡œì„¸ìŠ¤ íŒŒì•…. ë¶„ì„
+    ã„·. ì„œë¥˜, ìž¥í‘œ, ë³´ê³ ì„œ ë“±ë“± ê°ì¢… ë¬¸ì„œë¥¼ ì´ìš©í•´ì„œ ì—…ë¬´íŒŒì•….
+    ã„¹. ì‹¤ë¬´ìž ë¯¸íŒ…
+    ã…. ë°±ê·¸ë¼ìš´ë“œ í”„ë¡œì„¸ìŠ¤ íŒŒì•….
+    ã…‚. ì‚¬ìš©ìž ìš”êµ¬ ë¶„ì„.
        
-2. °³³äÀû DB ¸ðµ¨¸µ
-    -- Çö½Ç ¼¼°è ¾÷¹«¸¦ Á» ´õ ¸íÈ®È÷ Ç¥ÇöÇÏ´Â ¹æ¹ý. ( ¼ø¼­µµ )
+2. ê°œë…ì  DB ëª¨ë¸ë§
+    -- í˜„ì‹¤ ì„¸ê³„ ì—…ë¬´ë¥¼ ì¢€ ë” ëª…í™•ížˆ í‘œí˜„í•˜ëŠ” ë°©ë²•. ( ìˆœì„œë„ )
     -- [E]ntity - [R]elation - [D]iagram

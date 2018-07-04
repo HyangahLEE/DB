@@ -368,16 +368,17 @@ begin
     end loop;
     close emp_cursor;
 end;
----- 명시적 커서 + 레코드 타입 수정 3 ..
+-- 명시적 커서 + 레코드 타입 수정 3 ..
+
 declare
   type empxxx is record
   (
-    deptno emp.deptno%type;
-    ename emp.ename%type;
-    sal emp.sal%type;
-    hiredate emp.hiredate%type;
-  ); 
-  vrec expxxx;
+    deptno emp.deptno%type,
+    ename emp.ename%type,
+    sal emp.sal%type,
+    hiredate emp.hiredate%type
+  );
+  vrec empxxx;
   cursor emp_cursor 
       is (select deptno, ename, sal, hiredate from emp);
 begin
@@ -387,8 +388,8 @@ begin
         dbms_output.put_line( vrec.deptno || ' ' || 
                              vrec.ename  || ' ' || 
                              vrec.hiredate);
-     --exit when emp_cursor%notfound;
-     exit when emp_cursor%rowcount >= 5;
+     exit when emp_cursor%notfound;
+    -- exit when emp_cursor%rowcount >= 5;
      end loop;
      close emp_cursor;
 end; 

@@ -1,13 +1,11 @@
---2018.07.05 (¸ñ)
+--2018.07.05 (ëª©)
 
 select * from user_sequences;
 create sequence seq_dept
 increment by 10
 start with 50;
 
---1.dept Å×ÀÌºí deptno, dname, loc
-
-
+--1.dept í…Œì´ë¸” deptno, dname, loc
 create or replace procedure up_insertDept
 (
     pdname in dept.dname%type := null,
@@ -18,11 +16,11 @@ begin
     insert into dept(deptno, dname, loc) values ( seq_dept.nextval, pdname,ploc);
     commit;
 end;
-
-execute up_insertDept('¿µ¾÷ºÎ','¼­¿ï');
-
+--
+execute up_insertDept('ì˜ì—…ë¶€','ì„œìš¸');
+--
 select * from dept;
-
+----
 create or replace procedure up_deleteDept
 (pdeptno in dept.deptno%type := null)
 is
@@ -32,10 +30,10 @@ begin
 delete from dept where deptno = pdeptno;
 commit;
 end;
-
+--
 execute up_deleteDept(50);
 execute up_deleteDept(70);
-
+-----
 create or replace procedure up_updateDept
 (
   pdeptno dept.deptno%type ,
@@ -50,7 +48,7 @@ begin
       into vdname, vloc
    from dept
    where deptno = pdeptno;
-   -- danme ³ÎÀÌ¸é ¿¹¿Ü ¹ß»ı... ¼öÁ¤ÇÒ deptno ¾ø´Ù..
+   -- danme ë„ì´ë©´ ì˜ˆì™¸ ë°œìƒ... ìˆ˜ì •í•  deptno ì—†ë‹¤..
    update dept
    set   dname = case 
                    when pdname is null then vdname
@@ -64,10 +62,10 @@ begin
    commit;
 -- exception
 end;
-
+--
 execute up_updateDept(50);
-execute up_updateDept(60,ploc=>'ÃæÁÖ');
-
+execute up_updateDept(60,ploc=>'ì¶©ì£¼');
+----
 
 create or replace procedure up_selectDept
 (
@@ -93,24 +91,24 @@ begin
 -- exception
 end;
 
--- ÇÁ·Î½ÃÀú È®ÀÎ
+-- í”„ë¡œì‹œì € í™•ì¸
 exec up_selectDept(10);
 exec up_selectDept;
 
---
+----
 create or replace procedure up_test
 (
-   pa in number      -- ÀÔ·Â¿ë
-   , pb in number    -- ÀÔ·Â¿ë ÆÄ¶ó¹ÌÅÍ
-   , pc out number   -- Ãâ·Â¿ë ÆÄ¶ó¹ÌÅÍ
+   pa in number      -- ì…ë ¥ìš©
+   , pb in number    -- ì…ë ¥ìš© íŒŒë¼ë¯¸í„°
+   , pc out number   -- ì¶œë ¥ìš© íŒŒë¼ë¯¸í„°
 )
 is
 begin
-   pc   :=   pa + pb ;  -- c ÆÄ¶ó¹ÌÅÍ 1234 °ªÀ» ÇÒ´ç(´ëÀÔ)
+   pc   :=   pa + pb ;  -- c íŒŒë¼ë¯¸í„° 1234 ê°’ì„ í• ë‹¹(ëŒ€ì…)
 -- exception
 end;
 
--- variable / print Å°¿öµå?
+-- [variable / print í‚¤ì›Œë“œ?]
 variable c number;
 exec  up_test(100,200, :c );
 print c;
@@ -120,7 +118,7 @@ begin
    :aa :=  55;
 end;
 print aa;
---
+----
 create or replace procedure up_empnoCheck
 (
 pempno EMP.EMPNO%type,
@@ -134,36 +132,36 @@ begin
     where empno = pempno;
 end;
 
- -- È¸¿ø °¡ÀÔÇÒ ¶§
--- ¾ÆÀÌµğ   [ kenik ] [»ç¿ë¿©ºÎ¹öÆ°]
--- kenik -> °í°´Å×ÀÌºí   id  
+ -- íšŒì› ê°€ì…í•  ë•Œ
+-- ì•„ì´ë””   [ kenik ] [ì‚¬ìš©ì—¬ë¶€ë²„íŠ¼]
+-- kenik -> ê³ ê°í…Œì´ë¸”   id  
 
--- ¾ÆÀÌµğ Áßº¹ Ã¼Å©ÇÏ´Â ÇÁ·Î½ÃÀú : up_idCheck
+-- ì•„ì´ë”” ì¤‘ë³µ ì²´í¬í•˜ëŠ” í”„ë¡œì‹œì € : up_idCheck
 -- pempno    in   kenik
 -- pempnoCheck out  1, 0
--- emp Å×ÀÌºí        empno
+-- emp í…Œì´ë¸”        empno
 
 var vempnoCheck number;
 begin
     up_empnoCheck( 7369 , :vempnoCheck );
     
     if :vempnoCheck=1 then
-        DBMS_OUTPUT.PUT_LINE('»ç¿ë ºÒ°¡´É ÇÕ´Ï´Ù.');
+        DBMS_OUTPUT.PUT_LINE('ì‚¬ìš© ë¶ˆê°€ëŠ¥ í•©ë‹ˆë‹¤.');
     else
-        DBMS_OUTPUT.PUT_LINE('»ç¿ë °¡´ÉÇÕ´Ï´Ù.');
+        DBMS_OUTPUT.PUT_LINE('ì‚¬ìš© ê°€ëŠ¥í•©ë‹ˆë‹¤.');
     end if;
 end;
 --exec up_empnoCheck( 7369 , :vempnoCheck );  -- 0
 --exec up_empnoCheck( 7777 , :vempnoCheck );  -- 1
 print empnoCheck;  
 
--- [ ·Î±×ÀÎ ] ÀÎÁõ
+-- [ ë¡œê·¸ì¸ ] ì¸ì¦
 --id
 --password
---[·Î±×ÀÎ]
--- 1)id Á¸ÀçÇÏÁö ¾ÊÀ» °æ¿ì      
--- 2)id Á¸ÀçÇÏÁö¸¸ password°¡ ¸ÂÁö ¾ÊÀ»°æ¿ì
--- 3)id/password ¼º°ø -> ·Î±×ÀÎ¼º°ø
+--[ë¡œê·¸ì¸]
+-- 1)id ì¡´ì¬í•˜ì§€ ì•Šì„ ê²½ìš°      
+-- 2)id ì¡´ì¬í•˜ì§€ë§Œ passwordê°€ ë§ì§€ ì•Šì„ê²½ìš°
+-- 3)id/password ì„±ê³µ -> ë¡œê·¸ì¸ì„±ê³µ
 
 --empno -1
 --ename 0
@@ -176,7 +174,7 @@ pid emp.empno%type
 ,presult out number
 )
 is 
- vid number(1); --Á¸ÀçÇÏ¸é 1 ¾Æ´Ï¸é 0
+ vid number(1); --ì¡´ì¬í•˜ë©´ 1 ì•„ë‹ˆë©´ 0
  vpwd emp.ename%type;
 begin
   select count(*)
@@ -202,15 +200,15 @@ var vresult number;
 begin
   up_logon(7369,'SMITH',:vresult);
   if( :vresult = -1 ) then
-     dbms_output.put_line('ID(empno)°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.');
+     dbms_output.put_line('ID(empno)ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.');
   elsif :vresult = 0  then
-    dbms_output.put_line('PWD(ename)°¡ Æ²·È½À´Ï´Ù.');
+    dbms_output.put_line('PWD(ename)ê°€ í‹€ë ¸ìŠµë‹ˆë‹¤.');
   elsif :vresult = 1  then
-     dbms_output.put_line('·Î±×ÀÎ ¼º°ø.');
+     dbms_output.put_line('ë¡œê·¸ì¸ ì„±ê³µ.');
   end if;
 end;
 
---
+-----
 
 create or replace procedure add_one
  (p_phone_no    IN OUT  varchar2)
@@ -220,7 +218,7 @@ p_phone_no := SUBSTR (p_phone_no, 1,1) || 1 ||
   SUBSTR(p_phone_no, 2, length(p_phone_no));
 END add_one;
 
--- 2. ¼¼¼Ç À¯Áö ÇÒ ¼ö ÀÖ´Â º¯¼ö
+-- 2. ì„¸ì…˜ ìœ ì§€ í•  ìˆ˜ ìˆëŠ” ë³€ìˆ˜
 variable phone_num varchar2(15);
 begin 
     :phone_num := '1234-121212';
@@ -228,8 +226,8 @@ END;
 print phone_num;
 execute add_one(:phone_num);
 -------------------------------
--->> Å×ÀÌºí 2°³ »ı¼º
---mem1<¾ÆÀÌµğ/ºñ¹Ğ¹øÈ£/ÀÌ¸§>
+-->> í…Œì´ë¸” 2ê°œ ìƒì„±
+--mem1<ì•„ì´ë””/ë¹„ë°€ë²ˆí˜¸/ì´ë¦„>
 
 CREATE TABLE mem1 (
 	id VARCHAR2(20) 
@@ -238,16 +236,16 @@ CREATE TABLE mem1 (
     ,CONSTRAINT pk_mem1_id PRIMARY KEY(id)
 );
 
---mem2<¾ÆÀÌµğ/¿¬¶ôÃ³/»ıÀÏ>
+--mem2<ì•„ì´ë””/ì—°ë½ì²˜/ìƒì¼>
 CREATE TABLE mem2 (
-	id VARCHAR2(20)--½Äº°°ü¤¡¤Æ pfk
+	id VARCHAR2(20)--ì‹ë³„ê´€ã„±ã…– pfk
     ,tel VARCHAR2(20)
     ,birth DATE
     ,CONSTRAINT pk_mem2_id PRIMARY KEY(id)
     ,CONSTRAINT fk_mem2_id FOREIGN KEY (id) REFERENCES mem1(id)
 );
 ----------
--->> ÇÁ·Î½ÃÀú »ı¼º (insMem)
+-->> í”„ë¡œì‹œì € ìƒì„± (insMem)
 CREATE OR REPLACE PROCEDURE insMem
 (
 	pid IN mem1.id%TYPE
@@ -271,10 +269,10 @@ BEGIN
     COMMIT;
 END;
 
-EXECUTE insMem('11', '11', 'È«±æµ¿', '111-111-111', '2000-10-10');
-EXECUTE insMem('22', '22', '±è±æµ¿', '111-222-111', NULL);
-EXECUTE insMem('33', '33', '¹Ú±æµ¿', NULL, '2000-08-08');
-EXECUTE insMem('44', '44', 'ÃÖ±æµ¿', null, null);
+EXECUTE insMem('11', '11', 'í™ê¸¸ë™', '111-111-111', '2000-10-10');
+EXECUTE insMem('22', '22', 'ê¹€ê¸¸ë™', '111-222-111', NULL);
+EXECUTE insMem('33', '33', 'ë°•ê¸¸ë™', NULL, '2000-08-08');
+EXECUTE insMem('44', '44', 'ìµœê¸¸ë™', null, null);
 
 SELECT * FROM mem1;
 SELECT * FROM mem2;
@@ -284,36 +282,36 @@ from user_procedures;
 
 
 ---------------
--- stored Function( ÀúÀå ÇÔ¼ö )
--- Â÷ÀÌÁ¡ ? ¸®ÅÏ°ª
---create or replace function ÇÔ¼ö¸í
+-- stored Function( ì €ì¥ í•¨ìˆ˜ )
+-- ì°¨ì´ì  ? ë¦¬í„´ê°’
+--create or replace function í•¨ìˆ˜ëª…
 --(
 --)
---return ÀÚ·áÇü;
+--return ìë£Œí˜•;
 --is
 --begin 
---    return(¸®ÅÏ°ª)
+--    return(ë¦¬í„´ê°’)
 --end;
 
---insa Å×ÀÌºí num, name, ssn
+--insa í…Œì´ë¸” num, name, ssn
 select num,name, ssn
-        ,decode( mod( substr(ssn,8,1) ,2),0,'¿©','³²') as gender
+        ,decode( mod( substr(ssn,8,1) ,2),0,'ì—¬','ë‚¨') as gender
 from insa;
---ÁÖ¹Î¹øÈ£ -> ³²ÀÚ ¿©ÀÚ ÀúÀåÇÔ¼ö ¼±¾ğ ->»ç¿ë
--- ÀúÀåÇÔ¼ö : select Àı, ÇÁ·Î½ÃÀú
+--ì£¼ë¯¼ë²ˆí˜¸ -> ë‚¨ì ì—¬ì ì €ì¥í•¨ìˆ˜ ì„ ì–¸ ->ì‚¬ìš©
+-- ì €ì¥í•¨ìˆ˜ : select ì ˆ, í”„ë¡œì‹œì €
 select num, name, ssn, getGender(ssn)
 from insa;
---
+----
 create or replace function getGender
 (
  pssn insa.ssn%type
 )
 return varchar2
 is 
-    vgender varchar2(6) :='¿©ÀÚ';
+    vgender varchar2(6) :='ì—¬ì';
 begin
     if mod( substr(pssn,8,1),2)=1 
-    then vgender :='³²ÀÚ';
+    then vgender :='ë‚¨ì';
     end if;
     return vgender;
 end;
@@ -323,8 +321,8 @@ from dual;
 
 grant select on insa to hr;
 
--- Ä¿¼­ ( cursor )
--- 1)Ä¿¼­ Á¤ÀÇ 2)Ä¿¼­ »ç¿ë 3)Ä¿¼­ Á¾·ù 4) Ä¿¼­ »ı-»ç Çü½Ä
+-- ì»¤ì„œ ( cursor )
+-- 1)ì»¤ì„œ ì •ì˜ 2)ì»¤ì„œ ì‚¬ìš© 3)ì»¤ì„œ ì¢…ë¥˜ 4) ì»¤ì„œ ìƒ-ì‚¬ í˜•ì‹
 
 
 declare
@@ -342,7 +340,7 @@ begin
 -- exception
 end;
 
---> ¸í½ÃÀû Ä¿¼­ 
+--> ëª…ì‹œì  ì»¤ì„œ 
 
 declare
   vemprow emp%rowtype;
@@ -364,7 +362,7 @@ begin
     close emp_list;
 end;
 --
---up_emplist ÀúÀå ÇÁ·Î½ÃÀú
+--up_emplist ì €ì¥ í”„ë¡œì‹œì €
 create or replace procedure up_emplist
 --()
 is
@@ -388,10 +386,10 @@ begin
 -- exception
 end;
 
--- Å×½ºÆ®
+-- í…ŒìŠ¤íŠ¸
 exec up_emplist;
 
---up_emplist ÇÁ·Î½ÃÀú ¼öÁ¤ : deptno ºÎ¼­¹øÈ£ ¸Å°³º¯¼ö
+--up_emplist í”„ë¡œì‹œì € ìˆ˜ì • : deptno ë¶€ì„œë²ˆí˜¸ ë§¤ê°œë³€ìˆ˜
 create or replace procedure up_emplist_dept
 (
     pdeptno emp.deptno%type
@@ -417,10 +415,10 @@ begin
 -- exception
 end;
 
---Å×½ºÆ®
+--í…ŒìŠ¤íŠ¸
 exec up_emplist_dept(30);
 
---> Ä¿¼­ÀÇ ÆÄ¶ó¹ÌÅÍ¸¦ ÀÌ¿ëÇÏ´Â ¹æ¹ı
+--> ì»¤ì„œì˜ íŒŒë¼ë¯¸í„°ë¥¼ ì´ìš©í•˜ëŠ” ë°©ë²•
 create or replace procedure up_emplist_dept
 (
     pdeptno emp.deptno%type
@@ -430,7 +428,7 @@ is
   cursor emp_list(p_pdeptno emp.deptno%type)
      is select * from emp where deptno = p_pdeptno;
 begin
-    --Ä¿¼­ÀÇ ¸Å°³º¯¼ö
+    --ì»¤ì„œì˜ ë§¤ê°œë³€ìˆ˜
    open emp_list(pdeptno);
    
    loop
@@ -446,3 +444,4 @@ begin
    close emp_list;
 -- exception
 end;
+----------------------------------
